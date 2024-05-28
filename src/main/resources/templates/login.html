@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/2000/svg"
+>
+<head>
+    <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Babeh Burger</title>
+          <link rel="stylesheet" type="text/css" href="css/login.css" />
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+          <script src="/js/uiSystem.js"></script>
+      
+</head>
+
+
+
+<body>
+
+
+
+
+    <div class="wrap-left">
+        <div class="deco">
+            <svg width="262" height="262" viewBox="0 0 262 262" fill="none" >
+                <path d="M262 131C262 203.349 203.349 262 131 262C58.6507 262 0 203.349 0 131C0 58.6507 58.6507 0 131 0C203.349 0 262 58.6507 262 131ZM44.6967 131C44.6967 178.664 83.336 217.303 131 217.303C178.664 217.303 217.303 178.664 217.303 131C217.303 83.336 178.664 44.6967 131 44.6967C83.336 44.6967 44.6967 83.336 44.6967 131Z" fill="#F1F1F1"/>
+            </svg>                
+        </div>
+            <h4>Babeh Burger Kasir app</h4>
+            <p>Sebuah app yang dapat membatumu melayani semua pelanggan <br> hanya dengan satu aplikasi</p>
+        <div class="gambar">
+            <img src="/gambar/11.png" alt="gambar-cafe">
+        </div>
+    </div>
+
+    <div class="wrap-right">
+        <div class="login-wrap">
+            <h3>Login</h3>
+            <form method="post"
+            th:action="@{/login}"
+            class="form-horizontal"
+            role="form"
+            enctype="multipart/form-data">
+            
+                <label id="username-lbl" for="username">Username</label><br>
+                <input type="text"
+                id="username"
+                name="username"
+                class="form-control"
+                placeholder="Ketikan username anda" autofocus required autocomplete="none"><br>
+                
+                <label id="password-lbl" for="password">Password</label><br>
+                <input type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="Ketikan password anda" required>
+                
+                <p id="lupa-pass">Lupa password? <a>Hubungi Admin</a></p>
+                <button id="btn-login" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

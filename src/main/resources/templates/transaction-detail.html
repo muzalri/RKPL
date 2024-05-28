@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transaction Detail</title>
+</head>
+<body>
+<h1>Transaction Detail</h1>
+<p>ID: <span th:text="${transaction.id}">1</span></p>
+<p>Nama Pelanggan: <span th:text="${transaction.namaPelanggan}">John Doe</span></p>
+<p>Nama Menu: <span th:text="${#strings.listJoin(transaction.namaMenu*.namaMenu, ', ')}">Menu 1, Menu 2</span></p>
+<p>Jumlah: <span th:text="${transaction.jumlah}">2</span></p>
+<p>Total Harga: <span th:text="${transaction.totalHarga}">100.0</span></p>
+<p>Nama Pegawai: <span th:text="${transaction.namaPegawai.name}">Jane Smith</span></p>
+</body>
+</html>

@@ -1,0 +1,47 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans';
+}
+
+html {
+    background-color: #F6F6F6;
+}
+
+.wrap-struk {
+    background-color: white;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,70%);
+    height: 100%;
+    width: 25%;
+    border-radius: 10px;
+    padding: 15px 10px;
+    text-align: center;
+}
+
+.up-part {
+    margin-bottom: 10px;
+}
+
+hr {
+    width: 75%;
+    height: 2px;
+    background-color: #dddddd;
+    border: none;
+    border-radius: 5px;
+    margin: 20px 43px;
+}
+
+.table-wrap {
+    width: 80%;
+    height: 100%;
+    margin-left: 16%;
+    padding-bottom: 15px;
+}
+
+.table-wrap tr {
+    padding-bottom: 10px;
+}

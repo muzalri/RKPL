@@ -1,0 +1,193 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans';
+}
+
+.wrap-left {
+    position: absolute;
+    background-color: #000000;
+    width: 50%;
+    height: 100%;
+    padding-left: 70px;
+    z-index: 0;
+}
+
+.wrap-left h4 {
+    padding-top: 170px;
+    font-size: 30px;
+    color: white;
+    font-weight: 500;
+}
+
+.wrap-left p {
+    padding-top: 10px;
+    letter-spacing: 1px;
+    font-size: 18px;
+    color: white;
+    font-weight: 200;
+}
+
+.wrap-left .deco {
+    position: absolute;
+    left: 75%;
+    top: -15%;
+}
+
+.wrap-left .gambar {
+    position: absolute;
+    top: 40%;
+    left: 20%;
+}
+
+.wrap-left .gambar img {
+    border-radius: 10px;
+}
+
+.wrap-right {
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%,-50%);
+    height: 100%;
+    width: 50%;
+    z-index: 1;
+    background-color: white;
+}
+
+.login-wrap {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 60%;
+    color: #22201E;
+}
+
+.login-wrap h3 {
+    font-size: 35px;
+    font-weight: 500;
+    padding-bottom: 30px;
+}
+
+.login-wrap input {
+    height: 55px;
+    width: 100%;
+    margin: 10px 0;
+    border: solid 1px #d6d6d6;
+    border-radius: 5px;
+    padding-left: 15px;
+    outline: none;
+    transition: 50ms ease;
+}
+
+.login-wrap input:focus {
+    outline: solid 2px #000000;
+    border: solid 1px #ffffff;
+}
+
+.login-wrap label {
+    font-size: 18px;
+    position: relative;
+    top: 20px;
+    left: 15px;
+    background-color: white;
+    padding: 0 10px;
+    font-weight: 500
+}
+
+.login-wrap p {
+    float: right;
+    font-size: 15px;
+}
+
+.login-wrap a {
+    text-decoration: underline;
+    color: #000000;
+}
+
+#btn-login {
+    width: 100%;
+    height: 50px;
+    cursor: pointer;
+    background-color: #000000;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin-top: 50px;
+}
+
+#btn-login:hover {
+    background-color: #000000;
+}
+
+#btn-login:active {
+    background-color: #000000;
+}
+
+.alert {
+    background-color: rgba(202, 255, 202, 0.925);
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 30%;
+    height: 80px;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    align-items: center;
+    padding: 0 20px;
+    transition: 800ms ease;
+    opacity: 1;
+}
+
+.alert.close-alert-su {
+    opacity: 0;
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    width: 30%;
+    height: 80px;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+}
+
+#alert-btn {
+    position: absolute;
+    right: 4%;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.alert-error {
+    background-color: rgba(87, 86, 86, 0.877);
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 30%;
+    height: 80px;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    align-items: center;
+    padding: 0 20px;
+    transition: 800ms ease;
+    opacity: 1;
+}
+
+.alert-error.close-alert-er {
+    opacity: 0;
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    width: 30%;
+    height: 80px;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+}
