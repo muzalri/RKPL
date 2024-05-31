@@ -1,72 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Transaction Form</title>
+    <title>Create Transaction</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
 </head>
 <body>
-<h1>Transaction Form</h1>
-<form th:action="@{/transactions/new/save}" th:object="${transaction}" method="post" onsubmit="return validateForm()">
-    <input type="hidden" th:field="*{id}" />
-    <label for="namaPelanggan">Nama Pelanggan:</label>
-    <input type="text" id="namaPelanggan" th:field="*{namaPelanggan}" /><br/>
+    <h1>Create Transaction</h1>
+    <form th:action="@{/transactions/new}" method="post">
+        <label for="namaPelanggan">Nama Pelanggan:</label>
+        <input type="text" id="namaPelanggan" name="namaPelanggan"><br>
 
-    <label for="items">Menu Items:</label>
-    <table>
-        <thead>
-            <tr>
-                <th>Select</th>
-                <th>Menu</th>
-                <th>Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="menu, iterStat : ${menus}">
-                <td>
-                    <input type="checkbox" th:field="*{items[__${iterStat.index}__].menu.id}" th:value="${menu.id}" data-stock="${menu.ketersediaan}" />
-                </td>
-                <td th:text="${menu.namaMenu}">Menu Name</td>
-                <td>
-                    <input type="number" th:field="*{items[__${iterStat.index}__].quantity}" min="0" placeholder="Quantity" />
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <label for="namaPegawai">Nama Pegawai:</label>
-    <select id="namaPegawai" th:field="*{namaPegawai.id}">
-        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.firstName + ' ' + user.lastName}">User 1</option>
-    </select><br/>
+        <label for="namaPegawai">Nama Pegawai:</label>
+        <input type="text" id="namaPegawai" name="namaPegawai" value="kasir" readonly><br>
 
-    <button type="submit">Save</button>
-</form>
-
-<script>
-    function validateForm() {
-        let isValid = true;
-        let items = document.querySelectorAll('input[type="checkbox"]:checked');
-        items.forEach(item => {
-            let row = item.closest('tr');
-            let quantityInput = row.querySelector('input[type="number"]');
-            let stock = parseInt(item.getAttribute('data-stock')); // Parse string to integer
-            let requestedQuantity = parseInt(quantityInput.value); // Parse string to integer
-            if (requestedQuantity <= 0 || requestedQuantity > stock) {
-                isValid = false;
-                alert(`Requested quantity for ${row.querySelector('td:nth-child(2)').textContent} is not valid or exceeds availability.`);
-            }
-        });
-        return isValid;
-    }
-
-    // Automatically clear quantity for unchecked items
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            let row = checkbox.closest('tr');
-            let quantityInput = row.querySelector('input[type="number"]');
-            if (!checkbox.checked) {
-                quantityInput.value = '';
-            }
-        });
-    });
-</script>
+        <label>Items:</label><br>
+        <ul>
+            <li th:each="menu : ${menus}">
+                <input type="checkbox" th:id="'menu-' + ${menu.id}" th:value="${menu.id}" th:name="'items[' + ${menu.id} + '].id'">
+                <label th:for="'menu-' + ${menu.id}" th:text="${menu.namaMenu}"></label>
+                <input type="number" th:id="'kuantitas-' + ${menu.id}" th:name="'items[' + ${menu.id} + '].kuantitas'" min="1" value="1">
+            </li>
+        </ul>
+        
+        <button type="submit">Create Transaction</button>
+    </form>
 </body>
 </html>

@@ -111,3 +111,58 @@
         </tbody>
     </table>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transactions</title>
+</head>
+<body>
+<h1>Transactions</h1>
+<a href="/transactions/new">Create New Transaction</a>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nama Pelanggan</th>
+            <th>Nama Menu</th>
+            <th>Jumlah</th>
+            <th>Total Harga</th>
+            <th>Nama Pegawai</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="transaction : ${transactions}">
+            <td th:text="${transaction.id}">1</td>
+            <td th:text="${transaction.namaPelanggan}">John Doe</td>
+            <td th:text="${#strings.listJoin(transaction.namaMenu*.namaMenu, ', ')}">Menu 1, Menu 2</td>
+            <td th:text="${transaction.jumlah}">2</td>
+            <td th:text="${transaction.totalHarga}">100.0</td>
+            <td th:text="${transaction.namaPegawai.name}">Jane Smith</td>
+            <td>
+                <a th:href="@{/transactions/{id}(id=${transaction.id})}">View</a>
+                <a th:href="@{/transactions/{id}/edit(id=${transaction.id})}">Edit</a>
+                <a th:href="@{/transactions/{id}/delete(id=${transaction.id})}">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

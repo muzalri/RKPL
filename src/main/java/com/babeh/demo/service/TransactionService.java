@@ -1,9 +1,12 @@
 package com.babeh.demo.service;
+
+import com.babeh.demo.model.Menu;
 import com.babeh.demo.model.Transaction;
-import com.babeh.demo.model.TransactionItem;
 import com.babeh.demo.repository.TransactionRepository;
+import com.babeh.demo.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,35 +15,27 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @Autowired
-    private MenuService menuService;
 
-    public List<Transaction> findAll() {
+    @Autowired
+    private MenuRepository menuRepository;
+
+    public List<Transaction> getAllTransactions() {
         return transactionRepository.findAll();
     }
 
-    public Optional<Transaction> findById(Long id) {
+    public Optional<Transaction> getTransactionById(Long id) {
         return transactionRepository.findById(id);
     }
-    public Transaction save(Transaction transaction) throws Exception {
-        // Pastikan transaksi memiliki item terkait
-        if (transaction.getItems() == null || transaction.getItems().isEmpty()) {
-            throw new Exception("Transaction must have items.");
-        }
-        
-        for (TransactionItem item : transaction.getItems()) {
-            int requestedQuantity = item.getQuantity();
-            int availableQuantity = menuService.getStock(item.getMenu().getId());
-            if (requestedQuantity <= 0 || requestedQuantity > availableQuantity) {
-                throw new Exception("Requested quantity for " + item.getMenu().getNamaMenu() + " is not valid or exceeds availability.");
-            }
-            menuService.updateStock(item.getMenu().getId(), -requestedQuantity);
-        }
+
+    public Transaction saveTransaction(Transaction transaction) {
+        double totalHarga = transaction.getItems().stream()
+                .mapToDouble(menu -> menu.getHarga() * transaction.getKuantitas())
+                .sum();
+        transaction.setTotal(totalHarga);
         return transactionRepository.save(transaction);
     }
-    
 
-    public void deleteById(Long id) {
+    public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
     }
 }

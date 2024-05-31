@@ -11,7 +11,7 @@ html {
 
 .sidebar {
     position: absolute;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     width: 10%;
     height: 95%;
     border-radius: 10px;

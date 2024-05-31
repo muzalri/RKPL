@@ -4,6 +4,7 @@ import com.babeh.demo.model.Menu;
 import com.babeh.demo.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -18,12 +19,18 @@ public class MenuService {
     public Menu tambahMenu(Menu menu) {
         return menuRepository.save(menu);
     }
-   
+
     public void hapusMenu(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("The given id must not be null.");
+        }
         menuRepository.deleteById(id);
     }
 
     public Menu dapatkanMenu(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("The given id must not be null.");
+        }
         return menuRepository.findById(id).orElse(null);
     }
 
@@ -32,6 +39,9 @@ public class MenuService {
     }
 
     public void updateMenu(Menu newMenu) {
+        if (newMenu.getId() == null) {
+            throw new IllegalArgumentException("The given id must not be null.");
+        }
         Menu existingMenu = menuRepository.findById(newMenu.getId()).orElse(null);
         if (existingMenu != null) {
             existingMenu.setNamaMenu(newMenu.getNamaMenu());
@@ -43,6 +53,9 @@ public class MenuService {
     }
 
     public void updateStock(Long id, int quantity) {
+        if (id == null) {
+            throw new IllegalArgumentException("The given id must not be null.");
+        }
         Menu menu = dapatkanMenu(id);
         if (menu != null) {
             menu.setKetersediaan(menu.getKetersediaan() + quantity);
@@ -51,6 +64,9 @@ public class MenuService {
     }
 
     public int getStock(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("The given id must not be null.");
+        }
         Menu menu = dapatkanMenu(id);
         return (menu != null) ? menu.getKetersediaan() : 0;
     }
