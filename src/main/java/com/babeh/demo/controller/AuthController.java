@@ -184,9 +184,10 @@ public class AuthController {
     }
     
 
-    @DeleteMapping("menu/hapusmenu/{id}")
-    public void hapusMenu(@PathVariable Long id) {
+    @RequestMapping("menu/hapusmenu/{id}")
+    public String hapusMenu(@PathVariable Long id) {
         menuService.hapusMenu(id);
+        return "redirect:/menu";
     }
 
    

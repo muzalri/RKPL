@@ -74,7 +74,7 @@
                 <div class="container">
                     <section class="content">
                         
-                        <h1>Tambah Menu Baru</h1>
+                        <!-- <h1>Tambah Menu Baru</h1>
     <form th:action="@{/menu/tambahmenu/save}" th:object="${menu}" method="post">
         <label for="namaMenu">Nama Menu:</label>
         <input type="text" id="namaMenu" th:field="*{namaMenu}" required><br><br>
@@ -90,7 +90,43 @@
 
         <button type="submit">Tambah Menu</button>
     </form>
-    <a href="/menu">Kembali ke Daftar Menu</a>
+    <a href="/menu">Kembali ke Daftar Menu</a> -->
+    <div class="row">
+        <div>
+            <h2 id="ul-header">Add new</h2>
+        </div>
+        <div>
+            <a th:href="@{/menu}"> Back</a>
+        </div>
+</div>
+
+<br>  
+
+    
+<form th:action="@{/menu/tambahmenu/save}" th:object="${menu}" method="post" enctype="multipart/form-data">
+
+    <div class="form-wrap">
+            <div class="name-form">
+                <label for="namaMenu">Nama Menu:</label>
+                <input type="text" id="namaMenu" th:field="*{namaMenu}" name="nama_menu" class="form-control" placeholder="Nama Menu" required>
+            </div>
+            <div class="username-form">
+                <label>Harga</label>
+                <input type="number" id="harga" th:field="*{harga}" name="harga" class="form-control" placeholder="Harga" required>
+            </div>
+            <div class="deskripsi-form">
+                <strong>Deskripsi :</strong>
+                <textarea name="deskripsi" id="deskripsi" th:field="*{deskripsi}" required></textarea>
+            </div>
+            <div class="ketersediaan-form">
+                <label>Ketersediaan</label>
+                <input type="number" id="ketersediaan" th:field="*{ketersediaan}" name="ketersediaan" class="form-control" placeholder="Ketersediaan">
+            </div>
+            <button type="submit" class="menu-form-btn">Create</button>
+        </div>
+    </div>
+</form>
+
 
                     </section>
                 </div>
