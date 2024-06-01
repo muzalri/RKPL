@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Create Transaction</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+    <title>Create Transaksi</title>
 </head>
 <body>
-    <h1>Create Transaction</h1>
-    <form th:action="@{/transactions/new}" method="post">
+    <form th:action="@{/transaksi/create/save}" th:object="${transaksi}" method="post">
         <label for="namaPelanggan">Nama Pelanggan:</label>
-        <input type="text" id="namaPelanggan" name="namaPelanggan"><br>
+        <input type="text" id="namaPelanggan" th:field="*{namaPelanggan}" required>
 
-        <label for="namaPegawai">Nama Pegawai:</label>
-        <input type="text" id="namaPegawai" name="namaPegawai" value="kasir" readonly><br>
+        <label for="items">Items:</label>
+        <select id="items" multiple th:field="*{items}">
+            <option th:each="menu : ${menus}" th:value="${menu.id}" th:text="${menu.namaMenu}"></option>
+        </select>
 
-        <label>Items:</label><br>
-        <ul>
-            <li th:each="menu : ${menus}">
-                <input type="checkbox" th:id="'menu-' + ${menu.id}" th:value="${menu.id}" th:name="'items[' + ${menu.id} + '].id'">
-                <label th:for="'menu-' + ${menu.id}" th:text="${menu.namaMenu}"></label>
-                <input type="number" th:id="'kuantitas-' + ${menu.id}" th:name="'items[' + ${menu.id} + '].kuantitas'" min="1" value="1">
-            </li>
-        </ul>
-        
-        <button type="submit">Create Transaction</button>
+        <label for="kuantitas">Kuantitas:</label>
+        <input type="number" id="kuantitas" th:field="*{kuantitas}" required>
+
+        <label for="username">Nama Pegawai:</label>
+        <select id="username" name="username">
+            <option th:each="user : ${users}" th:value="${user.username}" th:text="${user.username}"></option>
+        </select>
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>

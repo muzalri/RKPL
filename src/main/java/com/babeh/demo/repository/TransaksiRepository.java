@@ -1,9 +1,9 @@
 package com.babeh.demo.repository;
 
-import com.babeh.demo.model.Transaction;
+import com.babeh.demo.model.Transaksi;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface TransaksiRepository extends JpaRepository<Transaksi, Long> {
 }

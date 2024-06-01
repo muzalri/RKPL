@@ -1,14 +1,18 @@
-package com.babeh.demo.controller;import jakarta.servlet.http.HttpServletResponse;
+package com.babeh.demo.controller;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import com.babeh.demo.dto.UserDto;
 import com.babeh.demo.model.Menu;
-import com.babeh.demo.model.Transaction;
+import com.babeh.demo.model.Transaksi;
+import com.babeh.demo.model.Transaksi;
 import com.babeh.demo.model.User;
+import com.babeh.demo.repository.MenuRepository;
 import com.babeh.demo.service.MenuService;
 import com.babeh.demo.service.UserService;
-import com.babeh.demo.service.TransactionService;
-import com.babeh.demo.repository.MenuRepository;
+import com.babeh.demo.service.TransaksiService;
+import com.babeh.demo.service.TransaksiService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -207,38 +211,30 @@ public class AuthController {
 
 
 
-    
 
     @Autowired
-    private TransactionService transactionService;
+    private TransaksiService transaksiService;
 
 
-     @GetMapping("/transactions/new")
-    public String showCreateTransactionForm(Model model) {
-        List<Menu> menus = menuService.semuaMenu();
-        model.addAttribute("transaction", new Transaction());
-        model.addAttribute("menus", menus);
+@GetMapping("/transaksi/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("transaksi", new Transaksi());
+        model.addAttribute("menus", menuService.semuaMenu());
+        model.addAttribute("users", userService.findAllUsers());
         return "transaction-form";
     }
 
-    @PostMapping("/transactions/new")
-public String createTransaction(@ModelAttribute Transaction transaction) {
-    double totalHarga = transaction.getItems().stream()
-            .mapToDouble(menu -> menu.getHarga() * transaction.getKuantitas())
-            .sum();
-    transaction.setTotal(totalHarga);
-
-    Transaction savedTransaction = transactionService.saveTransaction(transaction);
-    return "redirect:/transactions";
-}
-
-    @GetMapping("/transactions")
-    public String listTransactions(Model model) {
-        List<Transaction> transactions = transactionService.getAllTransactions();
-        model.addAttribute("transactions", transactions);
-        return "transaction-list";
+    @PostMapping("/transaksi/create/save")
+    public String createTransaksi(@ModelAttribute Transaksi transaksi) {
+        transaksiService.saveTransaksi(transaksi);
+        return "redirect:/transaksi";
     }
 
+    @GetMapping("/transaksi")
+    public String listTransaksi(Model model) {
+        model.addAttribute("transaksiList", transaksiService.getAllTransaksi());
+        return "transaction-list";
+    }
 }
 
 

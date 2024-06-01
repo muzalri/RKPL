@@ -1,40 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Transactions List</title>
+    <title>List Transaksi</title>
 </head>
 <body>
-    <h1>Transactions List</h1>
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nama Pelanggan</th>
-                <th>Nama Pegawai</th>
                 <th>Items</th>
                 <th>Kuantitas</th>
                 <th>Total</th>
+                <th>Nama Pegawai</th>
                 <th>Created At</th>
                 <th>Updated At</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="transaction : ${transactions}">
-                <td th:text="${transaction.id}">1</td>
-                <td th:text="${transaction.namaPelanggan}">John Doe</td>
-                <td th:text="${transaction.user.username}">kasir123</td>
+            <tr th:each="transaksi : ${transaksiList}">
+                <td th:text="${transaksi.id}"></td>
+                <td th:text="${transaksi.namaPelanggan}"></td>
                 <td>
                     <ul>
-                        <li th:each="menu : ${transaction.items}" th:text="${menu.namaMenu}">Menu Item</li>
+                        <li th:each="item : ${transaksi.items}" th:text="${item.namaMenu}"></li>
                     </ul>
                 </td>
-                <td th:text="${transaction.kuantitas}">2</td>
-                <td th:text="${transaction.total}">100.00</td>
-                <td th:text="${transaction.createdAt}">2024-05-30T12:00:00</td>
-                <td th:text="${transaction.updatedAt}">2024-05-30T12:00:00</td>
+                <td th:text="${transaksi.kuantitas}"></td>
+                <td th:text="${transaksi.total}"></td>
+                <td th:text="${transaksi.namaPegawai}"></td>
+                <td th:text="${transaksi.createdAt}"></td>
+                <td th:text="${transaksi.updatedAt}"></td>
             </tr>
         </tbody>
     </table>
-    <a href="/transactions/new">Create New Transaction</a>
 </body>
 </html>
