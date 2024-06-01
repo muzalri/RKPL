@@ -23,7 +23,13 @@ public class Transaksi {
     private String namaPelanggan;
 
     @ManyToMany
+    @JoinTable(
+        name = "transaksi_menu",
+        joinColumns = @JoinColumn(name = "transaksi_id"),
+        inverseJoinColumns = @JoinColumn(name = "menu_id")
+    )
     private List<Menu> items = new ArrayList<>();
+
 
     private int kuantitas;
 

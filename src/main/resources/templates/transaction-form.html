@@ -2,24 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Create Transaksi</title>
+    <script>
+        function addMenu() {
+            const menuSelect = document.getElementById('menuSelect');
+            const quantityInput = document.getElementById('quantityInput');
+            
+            const selectedMenu = menuSelect.options[menuSelect.selectedIndex].text;
+            const selectedMenuId = menuSelect.value;
+            const quantity = quantityInput.value;
+
+            if (selectedMenuId && quantity > 0) {
+                const menuList = document.getElementById('menuList');
+
+                const menuItem = document.createElement('div');
+                menuItem.innerHTML = `
+                    <input type="hidden" name="menuIds" value="${selectedMenuId}">
+                    <input type="hidden" name="quantities" value="${quantity}">
+                    ${selectedMenu} - ${quantity}
+                `;
+
+                menuList.appendChild(menuItem);
+            }
+        }
+    </script>
 </head>
 <body>
     <form th:action="@{/transaksi/create/save}" th:object="${transaksi}" method="post">
         <label for="namaPelanggan">Nama Pelanggan:</label>
         <input type="text" id="namaPelanggan" th:field="*{namaPelanggan}" required>
 
-        <label for="items">Items:</label>
-        <select id="items" multiple th:field="*{items}">
+        <label for="menuSelect">Menu:</label>
+        <select id="menuSelect">
             <option th:each="menu : ${menus}" th:value="${menu.id}" th:text="${menu.namaMenu}"></option>
         </select>
 
-        <label for="kuantitas">Kuantitas:</label>
-        <input type="number" id="kuantitas" th:field="*{kuantitas}" required>
+        <label for="quantityInput">Kuantitas:</label>
+        <input type="number" id="quantityInput" min="1">
+
+        <button type="button" onclick="addMenu()">Tambah Menu</button>
+
+        <div id="menuList"></div>
 
         <label for="username">Nama Pegawai:</label>
         <select id="username" name="username">
             <option th:each="user : ${users}" th:value="${user.username}" th:text="${user.username}"></option>
         </select>
+
         <button type="submit">Submit</button>
     </form>
 </body>

@@ -226,11 +226,14 @@ public class AuthController {
     }
 
     @PostMapping("/transaksi/create/save")
-    public String createTransaksi(@ModelAttribute Transaksi transaksi) {
-        transaksiService.saveTransaksi(transaksi);
-        return "redirect:/transaksi";
-    }
-
+    public String createTransaksi(@ModelAttribute Transaksi transaksi,
+    @RequestParam("username") String username,
+    @RequestParam("menuIds") List<Long> menuIds,
+    @RequestParam("quantities") List<Integer> quantities) {
+transaksiService.saveTransaksi(transaksi, username, menuIds, quantities);
+return "redirect:/transaksi";
+}
+        
     @GetMapping("/transaksi")
     public String listTransaksi(Model model) {
         model.addAttribute("transaksiList", transaksiService.getAllTransaksi());
