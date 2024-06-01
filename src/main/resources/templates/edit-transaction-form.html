@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Create Transaksi</title>
+    <title>Edit Transaksi</title>
     <script>
         function addMenu() {
             const menuSelect = document.getElementById('menuSelect');
@@ -18,20 +18,16 @@
                 menuItem.innerHTML = `
                     <input type="hidden" name="menuIds" value="${selectedMenuId}">
                     <input type="hidden" name="quantities" value="${quantity}">
-                    ${selectedMenu} - Kuantitas: ${quantity}
-                    <button type="button" onclick="removeMenuItem(this)">Remove</button>
+                    ${selectedMenu} - ${quantity}
                 `;
+
                 menuList.appendChild(menuItem);
             }
-        }
-
-        function removeMenuItem(button) {
-            button.parentElement.remove();
         }
     </script>
 </head>
 <body>
-    <form th:action="@{/transaksi/create/save}" th:object="${transaksi}" method="post">
+    <form th:action="@{/transaksi/edit/{id}(id=${transaksi.id})}" th:object="${transaksi}" method="post">
         <label for="namaPelanggan">Nama Pelanggan:</label>
         <input type="text" id="namaPelanggan" th:field="*{namaPelanggan}" required>
 
@@ -52,7 +48,7 @@
             <option th:each="user : ${users}" th:value="${user.username}" th:text="${user.username}"></option>
         </select>
 
-        <button type="submit">Submit</button>
+        <button type="submit">Update</button>
     </form>
 </body>
 </html>

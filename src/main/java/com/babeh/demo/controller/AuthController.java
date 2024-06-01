@@ -239,6 +239,31 @@ return "redirect:/transaksi";
         model.addAttribute("transaksiList", transaksiService.getAllTransaksi());
         return "transaction-list";
     }
+
+    @GetMapping("/transaksi/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        Transaksi transaksi = transaksiService.findById(id);
+        model.addAttribute("transaksi", transaksi);
+        model.addAttribute("menus", menuService.semuaMenu());
+        model.addAttribute("users", userService.findAllUsers());
+        return "edit-transaction-form";
+    }
+
+    @PostMapping("/transaksi/edit/{id}")
+    public String updateTransaksi(@PathVariable("id") Long id,
+                                  @ModelAttribute Transaksi transaksi,
+                                  @RequestParam("username") String username,
+                                  @RequestParam("menuIds") List<Long> menuIds,
+                                  @RequestParam("quantities") List<Integer> quantities) {
+        transaksiService.updateTransaksi(id, transaksi, username, menuIds, quantities);
+        return "redirect:/transaksi";
+    }
+
+    @GetMapping("/transaksi/delete/{id}")
+    public String deleteTransaksi(@PathVariable("id") Long id) {
+        transaksiService.deleteTransaksi(id);
+        return "redirect:/transaksi";
+    }
 }
 
 

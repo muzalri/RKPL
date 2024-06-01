@@ -1,6 +1,9 @@
 package com.babeh.demo.model;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,5 +25,7 @@ public class Menu {
     private String deskripsi;
     private int ketersediaan;
 
+     @ManyToMany(mappedBy = "items")
+    private List<Transaksi> transaksi = new ArrayList<>();
    
 }

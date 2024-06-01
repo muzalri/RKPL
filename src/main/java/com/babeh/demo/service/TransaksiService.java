@@ -23,7 +23,7 @@ public class TransaksiService {
     @Autowired
     private UserRepository userRepository;
 
-     public Transaksi saveTransaksi(Transaksi transaksi, String username, List<Long> menuIds, List<Integer> quantities) {
+    public Transaksi saveTransaksi(Transaksi transaksi, String username, List<Long> menuIds, List<Integer> quantities) {
         User user = userRepository.findByUsername(username);
         transaksi.setNamaPegawai(user.getUsername());
 
@@ -55,7 +55,37 @@ public class TransaksiService {
 
     // Other methods...
 
-    public void deleteTransaction(Long id) {
-        transaksiRepository.deleteById(id);
+    public Transaksi findById(Long id) {
+        return transaksiRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid transaksi Id:" + id));
+    }
+
+    public Transaksi updateTransaksi(Long id, Transaksi transaksi, String username, List<Long> menuIds, List<Integer> quantities) {
+        Transaksi existingTransaksi = findById(id);
+
+        // Revert the stock of the previous items
+        for (Menu menu : existingTransaksi.getItems()) {
+            menu.setKetersediaan(menu.getKetersediaan() + existingTransaksi.getKuantitas());
+            menuRepository.save(menu);
+        }
+
+        existingTransaksi.setNamaPelanggan(transaksi.getNamaPelanggan());
+        existingTransaksi.setNamaPegawai(username);
+        existingTransaksi.setItems(new ArrayList<>());
+        existingTransaksi.setKuantitas(0);
+        existingTransaksi.setTotal(0);
+
+        return saveTransaksi(existingTransaksi, username, menuIds, quantities);
+    }
+
+    public void deleteTransaksi(Long id) {
+        Transaksi transaksi = findById(id);
+
+        // Revert the stock of the items
+        for (Menu menu : transaksi.getItems()) {
+            menu.setKetersediaan(menu.getKetersediaan() + transaksi.getKuantitas());
+            menuRepository.save(menu);
+        }
+
+        transaksiRepository.delete(transaksi);
     }
 }

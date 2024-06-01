@@ -166,3 +166,15 @@
 </table>
 </body>
 </html>
+
+
+<td th:text="${transaksi.createdAt}"></td>
+                <td th:text="${transaksi.updatedAt}"></td>
+
+                <td>
+                    <a th:href="@{/transaksi/edit/{id}(id=${transaksi.id})}">Edit</a>
+                    <a th:href="@{/transaksi/delete/{id}(id=${transaksi.id})}" 
+                       onclick="return confirm('Apakah Anda yakin ingin menghapus transaksi ini?');">Delete</a>
+                </td>
+                <a href="@{/transaksi/create}">Tambah Transaksi Baru</a>
+
