@@ -15,7 +15,7 @@
 }
 
 .wrap-left h4 {
-    padding-top: 170px;
+    padding-top: 120px;
     font-size: 30px;
     color: white;
     font-weight: 500;
@@ -32,17 +32,19 @@
 .wrap-left .deco {
     position: absolute;
     left: 75%;
-    top: -15%;
+    top: -20%;
 }
 
 .wrap-left .gambar {
     position: absolute;
-    top: 40%;
+    top: 45%;
     left: 20%;
 }
-
+    
 .wrap-left .gambar img {
-    border-radius: 10px;
+    border-radius: 20px;
+    width: 400px; /* Set the desired width */
+    height: auto; /* Maintains aspect ratio */
 }
 
 .wrap-right {

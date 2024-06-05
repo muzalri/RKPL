@@ -264,6 +264,12 @@ return "redirect:/transaksi";
         transaksiService.deleteTransaksi(id);
         return "redirect:/transaksi";
     }
+
+    @GetMapping("/transaksi/struk/{id}")
+    public String struk (@PathVariable("id") Long id, Model model) {
+        model.addAttribute("transaksi",transaksiService.findById(id));
+        return "struk";
+    }
 }
 
 

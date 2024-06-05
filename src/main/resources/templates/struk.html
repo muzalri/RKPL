@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/2000/svg"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Struk Pembayaran</title>
+    <link rel="stylesheet" type="text/css" href="css/struk.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: 'Plus Jakarta Sans';
+    }
+    
+    html {
+        background-color: #F6F6F6;
+    }
+    
+    .wrap-struk {
+        background-color: white;
+        position: relative;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,70%);
+        height: 100%;
+        width: 25%;
+        border-radius: 10px;
+        padding: 15px 10px;
+        text-align: center;
+        margin-bottom: 40%;
+    }
+    
+    .up-part {
+        margin-bottom: 10px;
+    }
+    
+    hr {
+        width: 75%;
+        height: 2px;
+        background-color: #dddddd;
+        border: none;
+        border-radius: 5px;
+        margin: 20px 43px;
+    }
+    
+    .table-wrap {
+        width: 80%;
+        height: 100%;
+        margin-left: 16%;
+        padding-bottom: 15px;
+    }
+    
+    .table-wrap tr {
+        padding-bottom: 10px;
+    }
+    .nama-menu{
+        padding-left: 20px;
+    }
+
+</style>
+
+</head>
+<body>
+    <div th:each="transaksi : ${transaksi}" class="wrap-struk">
+        <div class="up-part">
+            <h1>Ngopiin Aja</h1>
+            <p th:text="${transaksi.namaPelanggan}"></p>
+        </div>
+        <hr>
+        <div class="table-wrap">
+            <table>
+                <tr>
+                    <td>ID Transaksi</td>
+                    <td>:</td>
+                    <td th:text="${transaksi.id}"></td>
+                </tr>
+                <tr>
+                    <td>Nama Pelanggan</td>
+                    <td>:</td>
+                    <td th:text="${transaksi.namaPelanggan}"></td>
+                </tr>
+                <tr>
+                    <td>Nama Menu</td>
+                    <td>:</td>
+                    <td class="nama-menu">
+                        <ul>
+                            <li th:each="item : ${transaksi.items}" th:text="${item.namaMenu}"></li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Jumlah</td>
+                    <td>:</td>
+                    <td th:text="${transaksi.kuantitas}"></td>
+                </tr>
+                <tr>
+                    <td>Total Harga</td>
+                    <td>:</td>
+                    <td th:text="'Rp ' + ${#numbers.formatDecimal(transaksi.total, 0, 'COMMA', 0, 'POINT')}"></td>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
