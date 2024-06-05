@@ -37,7 +37,8 @@ public class SpringSecurity {
         .requestMatchers("/error/**").permitAll()  
         .requestMatchers("/delete/**").hasRole("ADMIN")
         .requestMatchers("/menu/**").hasRole("MANAGER")
-        .requestMatchers("/transaksi/**").hasRole("KASIR")
+        .requestMatchers("/laporan/**").hasRole("MANAGER")
+        .requestMatchers("/transaksi/**").hasAnyRole("KASIR","MANAGER")
         .requestMatchers("/api/**").hasRole("KASIR")
 )
             .formLogin(

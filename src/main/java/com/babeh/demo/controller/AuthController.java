@@ -5,15 +5,18 @@ import jakarta.validation.Valid;
 import com.babeh.demo.dto.UserDto;
 import com.babeh.demo.model.Menu;
 import com.babeh.demo.model.Transaksi;
-import com.babeh.demo.model.Transaksi;
 import com.babeh.demo.model.User;
 import com.babeh.demo.repository.MenuRepository;
 import com.babeh.demo.service.MenuService;
 import com.babeh.demo.service.UserService;
+import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
 import com.babeh.demo.service.TransaksiService;
-import com.babeh.demo.service.TransaksiService;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,14 +28,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.UnitValue;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Collections;
 
-import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 
 @Controller
@@ -270,6 +278,73 @@ return "redirect:/transaksi";
         model.addAttribute("transaksi",transaksiService.findById(id));
         return "struk";
     }
+
+
+    @GetMapping("/laporan")
+    public String listLaporan(Model model) {
+        model.addAttribute("transaksiList", transaksiService.getAllTransaksi());
+        return "laporan";
+    }
+
+    
+    @GetMapping("/laporan/cetak_pdf")
+    public ResponseEntity<InputStreamResource> cetakPdf() throws IOException {
+        List<Transaksi> transaksiList = transaksiService.getAllTransaksi();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PdfWriter writer = new PdfWriter(out);
+        PdfDocument pdf = new PdfDocument(writer);
+        Document document = new Document(pdf);
+
+        // Add title
+        document.add(new Paragraph("Daftar Transaksi"));
+
+        // Create table with columns
+        Table table = new Table(UnitValue.createPercentArray(new float[]{1, 3, 3, 2, 2, 3, 3}));
+        table.setWidth(UnitValue.createPercentValue(100));
+
+        // Add table headers
+        table.addHeaderCell(new Cell().add(new Paragraph("No.")));
+        table.addHeaderCell(new Cell().add(new Paragraph("Nama Pelanggan")));
+        table.addHeaderCell(new Cell().add(new Paragraph("Nama Menu")));
+        table.addHeaderCell(new Cell().add(new Paragraph("Jumlah")));
+        table.addHeaderCell(new Cell().add(new Paragraph("Total")));
+        table.addHeaderCell(new Cell().add(new Paragraph("Nama Pegawai")));
+        table.addHeaderCell(new Cell().add(new Paragraph("Tanggal")));
+
+        // Add table rows
+        for (int i = 0; i < transaksiList.size(); i++) {
+            Transaksi transaksi = transaksiList.get(i);
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(i + 1))));
+            table.addCell(new Cell().add(new Paragraph(transaksi.getNamaPelanggan())));
+
+            // Get the names of the items
+            String itemNames = transaksi.getItems().stream()
+                    .map(Menu::getNamaMenu) // Assuming 'Menu' class has 'getNamaMenu' method
+                    .collect(Collectors.joining(", "));
+            table.addCell(new Cell().add(new Paragraph(itemNames)));
+
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(transaksi.getKuantitas()))));
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(transaksi.getTotal()))));
+            table.addCell(new Cell().add(new Paragraph(transaksi.getNamaPegawai())));
+            table.addCell(new Cell().add(new Paragraph(transaksi.getCreatedAt().toString())));
+        }
+
+        document.add(table);
+        document.close();
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(out.toByteArray());
+        InputStreamResource resource = new InputStreamResource(bis);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=transactions.pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(resource);
+    }
+
 }
 
 
