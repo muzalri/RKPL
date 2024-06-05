@@ -165,31 +165,53 @@
 </div>
 </div>
 
-
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        console.log('test');
-
-        
-
-        async function getData(url = '/get-transaksi') {
-            try {
-                const response = await hitData(url, null, 'GET');
-                $('#loadDataTransaksi').html(response);
-            } catch (error) {
-                console.log(error);
-            }
+<script>
+    console.log('test');
+    
+    function hitData(url, data, type) {
+        return new Promise((resolve, reject)=>{
+            $.ajax({
+                url,
+                data,
+                type,
+                headers:{
+                    'X-CSRF-TOKEN' : "{{ csrf_token() }}"
+                }, 
+                success:(response)=>{
+                    resolve(response)
+                },
+                error:(error)=>{
+                    reject(error)
+                }
+            })
+        })
+    }
+    
+    async function getData(url = '/get-transaksi') {
+        try {
+            const response = await hitData(url, null, 'GET')
+            $('#loadDataTransaksi').html(response);
+        } catch (error) {
+            console.log(error);
         }
+    }
 
-        function filtering() {
-            var startDate = $('#startDate').val();
-            var endDate = $('#endDate').val();
+    function filtering() {
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        if (startDate && endDate) {
             getData(`/get-transaksi?start_date=${startDate}&end_date=${endDate}`, null, 'GET');
-            $('#filterModal').modal('hide');
+        } else {
+            alert("Please select both start and end dates.");
         }
+        // Assuming the correct ID for the modal close is 'close-filter'
+        $('#close-filter').click();
+    }
 
+    $(document).ready(function() {
         getData();
-        /*]]>*/
-    </script>
+    });
+</script>
+
 </body>
 </html>

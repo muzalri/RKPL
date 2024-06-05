@@ -37,6 +37,7 @@ public class SpringSecurity {
         .requestMatchers("/error/**").permitAll()  
         .requestMatchers("/delete/**").hasRole("ADMIN")
         .requestMatchers("/menu/**").hasRole("MANAGER")
+        .requestMatchers("get-transaksi").hasRole("MANAGER")
         .requestMatchers("/laporan/**").hasRole("MANAGER")
         .requestMatchers("/transaksi/**").hasAnyRole("KASIR","MANAGER")
         .requestMatchers("/api/**").hasRole("KASIR")

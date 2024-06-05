@@ -9,6 +9,7 @@ import com.babeh.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -88,4 +89,15 @@ public class TransaksiService {
 
         transaksiRepository.delete(transaksi);
     }
+
+    public List<Transaksi> getFilteredTransaksi(String startDate, String endDate) {
+    if (startDate == null || endDate == null) {
+        return transaksiRepository.findAll();
+    }
+
+    LocalDate start = LocalDate.parse(startDate);
+    LocalDate end = LocalDate.parse(endDate);
+    return transaksiRepository.findByCreatedAtBetween(start, end);
+}
+
 }

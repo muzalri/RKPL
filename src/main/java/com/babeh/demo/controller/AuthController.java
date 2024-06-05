@@ -198,6 +198,8 @@ public class AuthController {
         return "redirect:/menu";
     }
 
+ 
+
    
 
 
@@ -344,6 +346,16 @@ return "redirect:/transaksi";
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
     }
+
+    @GetMapping("/get-transaksi")
+    public ResponseEntity<List<Transaksi>> getTransaksi(
+        @RequestParam(required = false) String start_date,
+        @RequestParam(required = false) String end_date) {
+        
+        List<Transaksi> filteredTransaksi = transaksiService.getFilteredTransaksi(start_date, end_date);
+        return ResponseEntity.ok(filteredTransaksi);
+    }
+    
 
 }
 
